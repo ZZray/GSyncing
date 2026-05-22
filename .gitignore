@@ -29,6 +29,7 @@ dist-ssr
 # tsc build cache for vite.config.ts (we don't want emitted JS in the repo)
 vite.config.d.ts
 vite.config.js
+*.tsbuildinfo
 
 # Tauri auto-generated schemas (regenerated on build)
 src-tauri/gen/schemas/
