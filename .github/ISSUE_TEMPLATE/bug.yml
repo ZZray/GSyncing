@@ -1,0 +1,76 @@
+name: 🐛 Bug 报告
+description: 同步异常 / 闪退 / 白屏 / UI 错乱等等
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢花时间报 bug。**先扫一眼 [docs/TAURI2-GOTCHAS.md](https://github.com/ZZray/GSyncing/blob/main/docs/TAURI2-GOTCHAS.md)** —
+        如果是白屏 / 启动失败类问题大概率已经在文档里。
+
+  - type: input
+    id: version
+    attributes:
+      label: GSyncing 版本
+      description: 「关于」对话框可以看到，或 Settings 顶部
+      placeholder: "例如 v2.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: 操作系统
+      placeholder: "例如 Windows 11 23H2"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: backend
+    attributes:
+      label: 用的哪种云存储
+      options:
+        - 腾讯云 COS
+        - 阿里云 OSS
+        - AWS S3
+        - MinIO 自建
+        - 坚果云 WebDAV
+        - Nextcloud
+        - 其它 WebDAV
+        - 还没配置就出问题
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: 复现步骤
+      description: 一步一步写，方便我本地照着试
+      placeholder: |
+        1. 添加 X 游戏
+        2. 点同步
+        3. 进度条卡在 50%
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为 + 错误消息（截图很好）
+      description: 如果有"日志" 页 → 「导出日志」按钮，请把生成的 gsyncing.log 拖进来
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 其它上下文
+      description: 大致同步的文件数 / 大小、网络情况、是否多机同步等

@@ -1,11 +1,38 @@
 # GSyncing
 
+[![CI](https://github.com/ZZray/GSyncing/actions/workflows/ci.yml/badge.svg)](https://github.com/ZZray/GSyncing/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/ZZray/GSyncing?display_name=tag&sort=semver)](https://github.com/ZZray/GSyncing/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Tauri 2](https://img.shields.io/badge/Tauri-2.x-24C8DB?logo=tauri&logoColor=white)](https://tauri.app/)
+[![Rust](https://img.shields.io/badge/Rust-stable-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
+
 > 游戏存档云同步工具。Tauri 2 + Rust + React + Antd。
 
 把游戏存档安全地同步到你自己的 S3 兼容存储（腾讯云 COS / 阿里云 OSS / AWS S3 / MinIO）或 WebDAV（坚果云 / Nextcloud）。  
 专为多结局存档对比、跨机器开档、Roguelike 关键节点保存而设计。
 
-![GSyncing 主界面](docs/screenshot.png) <!-- 占位，实际截图后补 -->
+## 截图
+
+<table>
+<tr>
+<td><img src="docs/screenshots/library.png" alt="游戏库" width="420"/></td>
+<td><img src="docs/screenshots/sync-status.png" alt="同步状态 + 存储用量" width="420"/></td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/versions.png" alt="历史版本 + 命名快照" width="420"/></td>
+<td><img src="docs/screenshots/dark.png" alt="深色模式" width="420"/></td>
+</tr>
+</table>
+
+> 截图待补 — `docs/screenshots/` 目录下放对应文件即可。
+
+## 下载
+
+最新 release：[**GitHub Releases**](https://github.com/ZZray/GSyncing/releases/latest)
+
+- `GSyncing_*.exe` — NSIS 安装器（推荐）
+- `GSyncing_*.msi` — 企业部署
+- 内置自更新：装好后下一版自动弹窗，不用每次手动下载
 
 ## 特性矩阵
 

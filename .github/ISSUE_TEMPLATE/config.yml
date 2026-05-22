@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Tauri 2 已知坑文档
+    url: https://github.com/ZZray/GSyncing/blob/main/docs/TAURI2-GOTCHAS.md
+    about: 白屏 / 启动失败 / build 问题先看这里
+  - name: 🚀 发版流程文档
+    url: https://github.com/ZZray/GSyncing/blob/main/docs/RELEASE.md
+    about: 想自己 fork + 发版的看这里

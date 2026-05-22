@@ -1,0 +1,34 @@
+name: ✨ 功能建议
+description: 想要新功能 / 现有功能想改进
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你想解决什么问题
+      description: 描述场景。最好讲清楚"我在做 X 的时候，因为 Y 不顺手"
+      placeholder: |
+        我同步原神存档到坚果云，每次出新版本都得手动..
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 你想要的解决方式
+      description: 不用很完美，怎么想的怎么写
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 看过类似产品里类似功能吗？
+      description: 比如 FreeFileSync / Syncthing / rclone / Ludusavi 哪个做过类似的，长什么样
+      placeholder: "FreeFileSync 的 X 模式 / Syncthing 的 Y 设置"
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 其它
