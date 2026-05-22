@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  release-check:
+    name: build + smoke + rust tests
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install Tauri prerequisites (Windows)
+        # tauri-cli on Windows needs WiX for MSI builds, but we don't
+        # `tauri build` in CI — only `cargo test` + frontend build + smoke,
+        # so no extra system deps are required.
+        run: echo "no extra deps required for release-check"
+
+      - name: npm ci
+        run: npm ci
+
+      - name: Frontend build (vite)
+        run: npm run build
+
+      - name: Smoke test (jsdom — catches TDZ class bugs)
+        run: npm run smoke
+
+      - name: Rust check
+        working-directory: src-tauri
+        run: cargo check --all-targets
+
+      - name: Rust format check
+        working-directory: src-tauri
+        run: cargo fmt --all -- --check
+
+      - name: Rust unit tests
+        working-directory: src-tauri
+        run: cargo test --lib
+
+      - name: Rust clippy (non-blocking)
+        working-directory: src-tauri
+        run: cargo clippy --all-targets -- -W clippy::all
+        continue-on-error: true
+
+  asset-layout-guard:
+    name: HTML/asset red-flag guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: npm ci
+        run: npm ci
+
+      - name: Build for inspection
+        run: npm run build
+
+      - name: Reject vendor-* chunks (manualChunks TDZ trap)
+        run: |
+          if ls dist/assets/vendor-* 1> /dev/null 2>&1; then
+            echo "::error::Found vendor-* chunks in dist/assets — manualChunks is known to break Tauri 2 webview (TDZ on 'ms'). See docs/TAURI2-GOTCHAS.md."
+            ls dist/assets/
+            exit 1
+          fi
+
+      - name: Reject crossorigin attribute (CORS rejection on Tauri 2 webview)
+        run: |
+          if grep -q crossorigin dist/index.html; then
+            echo "::error::dist/index.html contains crossorigin attribute — strip via stripCrossOriginPlugin. See docs/TAURI2-GOTCHAS.md."
+            grep crossorigin dist/index.html
+            exit 1
+          fi
+
+      - name: Reject absolute /assets/ paths
+        run: |
+          if grep -E 'src="/assets/|href="/assets/' dist/index.html; then
+            echo "::error::dist/index.html uses absolute /assets/ paths — set vite base to ./"
+            exit 1
+          fi

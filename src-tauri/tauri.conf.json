@@ -1,0 +1,55 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "GSyncing",
+  "version": "0.1.0",
+  "identifier": "com.loveu.gsyncing",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "GSyncing — 游戏存档云同步",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 960,
+        "minHeight": 640,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": true,
+        "transparent": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "category": "Utility",
+    "copyright": "Copyright (c) 2026 loveu",
+    "shortDescription": "Game save cloud sync via S3 / WebDAV",
+    "longDescription": "GSyncing syncs game save files to S3-compatible storage (Tencent COS, Aliyun OSS, AWS S3) or WebDAV servers."
+  },
+  "plugins": {
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://github.com/ZZray/GSyncing/releases/latest/download/latest.json"
+      ],
+      "dialog": false,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI5QTVGRTUxMjAzRkQ2OTQKUldTVTFqOGdVZjZsS2NlVmFEajF2OWZWeWcrZUorOThjdWxLN3lzYXpOa3dkZEZmdWZoRUEvOCsK"
+    }
+  }
+}

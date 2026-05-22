@@ -1,0 +1,34 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# Node
+node_modules
+dist
+dist-ssr
+
+# Tauri / Rust
+/src-tauri/target
+/src-tauri/Cargo.lock
+
+# Local data
+.gsyncing-data/
+*.local
+
+# Claude Code session state
+.claude/
+.superpowers/
+
+# tsc build cache for vite.config.ts (we don't want emitted JS in the repo)
+vite.config.d.ts
+vite.config.js
+
+# Tauri auto-generated schemas (regenerated on build)
+src-tauri/gen/schemas/

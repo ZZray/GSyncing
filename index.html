@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GSyncing — 游戏存档云同步</title>
+    <style>
+      /* Inline loading screen — visible BEFORE the JS bundle finishes parsing.
+         If you stare at this for more than ~5s, JS failed to load and the
+         "诊断" link below points you at devtools. */
+      html, body { margin: 0; padding: 0; height: 100%; background: #f5f7fb;
+        font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #333; }
+      #boot {
+        display: flex; flex-direction: column; align-items: center;
+        justify-content: center; height: 100vh; gap: 14px;
+      }
+      #boot .logo {
+        width: 64px; height: 64px; border-radius: 14px;
+        background: linear-gradient(135deg, #5b8def 0%, #8a6cff 100%);
+        display: flex; align-items: center; justify-content: center;
+        color: #fff; font-size: 38px; font-weight: 700;
+        box-shadow: 0 8px 24px rgba(91, 141, 239, 0.35);
+      }
+      #boot .label { color: #1e2447; font-weight: 600; font-size: 15px; }
+      #boot .hint { color: #8a8a8a; font-size: 12px; max-width: 320px;
+        text-align: center; line-height: 1.6; }
+      #boot .err {
+        margin-top: 16px; max-width: 640px;
+        background: #fff5f5; border: 1px solid #ffccc7; padding: 12px 16px;
+        border-radius: 8px; font-size: 12px; color: #cf1322;
+        white-space: pre-wrap; word-break: break-word;
+        font-family: Consolas, monospace; display: none;
+      }
+      .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+        background: #5b8def; margin: 0 3px; animation: bounce 1.2s infinite; }
+      .dot:nth-child(2) { animation-delay: 0.15s; }
+      .dot:nth-child(3) { animation-delay: 0.3s; }
+      @keyframes bounce {
+        0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+        30% { opacity: 1; transform: translateY(-4px); }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <!-- Replaced by React after bundle loads. Visible during fetch/parse. -->
+      <div id="boot">
+        <div class="logo">G</div>
+        <div class="label">GSyncing 启动中</div>
+        <div>
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+        <div class="hint">
+          如果停在这里超过 10 秒说明前端模块没加载成功。<br/>
+          按 <b>F12</b> 打开开发者工具 → 切到 Console / Network 看具体错误。
+        </div>
+        <pre id="boot-err" class="err"></pre>
+      </div>
+    </div>
+    <script>
+      // Capture early errors that fire before React mounts. If main.tsx
+      // never parses we at least show the parser error inline.
+      (function () {
+        var pre = document.getElementById("boot-err");
+        function show(msg) {
+          if (pre) { pre.style.display = "block"; pre.textContent = String(msg); }
+        }
+        window.addEventListener("error", function (e) {
+          show("error: " + (e.error && e.error.stack ? e.error.stack : e.message));
+        });
+        window.addEventListener("unhandledrejection", function (e) {
+          show("unhandledrejection: " + (e.reason && e.reason.stack ? e.reason.stack : e.reason));
+        });
+        // If still stuck on the boot screen after 10s, surface a hint.
+        setTimeout(function () {
+          if (document.getElementById("boot")) {
+            show("Bundle 仍未加载。可能 JS 模块路径解析失败。按 F12 → Network 看 .js 文件是否 404。");
+          }
+        }, 10000);
+      })();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

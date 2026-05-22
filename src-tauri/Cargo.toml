@@ -1,0 +1,94 @@
+[package]
+name = "gsyncing"
+version = "0.1.0"
+description = "GSyncing — game save cloud sync"
+authors = ["loveu"]
+edition = "2021"
+rust-version = "1.77"
+
+[lib]
+name = "gsyncing_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.1", features = ["tray-icon", "devtools"] }
+tauri-plugin-dialog = "2.2"
+tauri-plugin-opener = "2.2"
+tauri-plugin-notification = "2"
+tauri-plugin-updater = "2"
+tauri-plugin-process = "2"
+
+# async runtime
+tokio = { version = "1.41", features = ["full"] }
+tokio-util = "0.7"
+async-trait = "0.1"
+futures = "0.3"
+
+# serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# error handling
+thiserror = "2"
+anyhow = "1"
+
+# hashing
+sha2 = "0.10"
+hex = "0.4"
+
+# file watching — pull `notify` types from the debouncer's re-exports to avoid two crate copies
+notify-debouncer-full = "0.4"
+
+# globbing
+globset = "0.4"
+walkdir = "2.5"
+
+# S3
+aws-config = { version = "1.5", features = ["behavior-version-latest"] }
+aws-sdk-s3 = "1.65"
+aws-credential-types = "1.2"
+aws-smithy-runtime-api = "1.7"
+aws-smithy-types = "1.2"
+
+# WebDAV
+reqwest_dav = "0.1"
+reqwest = { version = "0.12", features = ["json", "stream", "rustls-tls"], default-features = false }
+
+# time
+chrono = { version = "0.4", features = ["serde"] }
+
+# dirs
+dirs = "5"
+
+# uuid
+uuid = { version = "1.11", features = ["v4", "serde"] }
+
+# url
+url = "2.5"
+
+# process detection
+sysinfo = { version = "0.32", default-features = false, features = ["system"] }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.59", features = ["Win32_Security_Cryptography", "Win32_Foundation"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true
