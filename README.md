@@ -173,10 +173,20 @@ cargo test --manifest-path src-tauri/Cargo.toml --lib
 ## 贡献
 
 - 代码规范：`cargo fmt` + ESLint（前端默认配置）
-- 一键自检：**`npm run release-check`**（build + smoke test + 36 Rust 单测，必须全绿才能发版）
+- 一键自检：**`npm run release-check`**（build + smoke test + 37 Rust 单测，必须全绿才能发版）
 - 中文回复 / 中文注释 / 英文 log message（grep 友好）
 - 关键路径加 INFO 级日志（跨进程调用 / 长动作 / 重试 / 异常 catch）
-- 看 [docs/TAURI2-GOTCHAS.md](docs/TAURI2-GOTCHAS.md) 避免 Tauri 2 + Vite + WebView2 的已知坑（manualChunks TDZ、crossorigin、base 路径等）
+- 看 [docs/TAURI2-GOTCHAS.md](docs/TAURI2-GOTCHAS.md) 避免 Tauri 2 + Vite + WebView2 的已知坑
+
+## 文档地图
+
+| 文件 | 谁看 | 内容 |
+|---|---|---|
+| [docs/AI-HANDOFF.md](docs/AI-HANDOFF.md) | **AI 接手优先看** | 项目状态快照 / 命令速查 / 失败→修复对照表 / 红线 |
+| [docs/RELEASE.md](docs/RELEASE.md) | 人类维护者 | 发版叙事流程：签名 / 上传 / latest.json / CI workflow |
+| [docs/TAURI2-GOTCHAS.md](docs/TAURI2-GOTCHAS.md) | 任何开发者 | 4 轮白屏排查总结 — 不看必踩 |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | 提 PR 的 | 环境 / 代码风格 / 关键路径日志规范 |
+| [CHANGELOG.md](CHANGELOG.md) | 任何人 | v0.1 → v2.1 完整演进 |
 
 ## License
 
